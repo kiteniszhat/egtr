@@ -304,7 +304,7 @@ class DetrForSceneGraphGeneration(DeformableDetrPreTrainedModel):
             outputs_classes.append(outputs_class)
             outputs_coords.append(outputs_coord)
 
-        del hidden_states, init_reference, inter_references
+        del init_reference, inter_references
         # Keep batch_size as first dimension
         outputs_class = torch.stack(outputs_classes, dim=1)
         outputs_coord = torch.stack(outputs_coords, dim=1)
@@ -400,6 +400,43 @@ class DetrForSceneGraphGeneration(DeformableDetrPreTrainedModel):
         rel_gate = torch.sigmoid(self.rel_predictor_gate(relation_source))
         gated_relation_source = torch.mul(rel_gate, relation_source).sum(dim=-2)
         pred_rel = self.rel_predictor(gated_relation_source)
+
+        # --- CONTRASTIVE DECODING ---
+        if not self.training and getattr(self.config, "use_contrastive_decoding", False):
+            amateur_layers = getattr(self.config, "contrastive_amateur_layers", 3)
+            alpha = getattr(self.config, "contrastive_alpha", 0.1)
+            
+            # Extract attention queries/keys from early decoder layers
+            # relation_source has shape [bsz, nq, nq, num_layers + 1, 2*d_model]
+            amateur_relation_source_qk = relation_source[:, :, :, :amateur_layers, :]
+            
+            # Amateur's pairwise concatenation
+            amateur_seq_out = hidden_states[:, amateur_layers - 1]
+            amateur_sub = self.final_sub_proj(amateur_seq_out).unsqueeze(2).repeat(
+                1, 1, num_object_queries, 1
+            )
+            amateur_obj = self.final_obj_proj(amateur_seq_out).unsqueeze(1).repeat(
+                1, num_object_queries, 1, 1
+            )
+            
+            # Amateur's relation source
+            amateur_relation_source = torch.cat(
+                [
+                    amateur_relation_source_qk,
+                    torch.cat([amateur_sub, amateur_obj], dim=-1).unsqueeze(-2)
+                ],
+                dim=-2,
+            )
+            
+            # Amateur's relation prediction (using the same weights as expert)
+            amateur_gate = torch.sigmoid(self.rel_predictor_gate(amateur_relation_source))
+            amateur_gated = torch.mul(amateur_gate, amateur_relation_source).sum(dim=-2)
+            pred_rel_amateur = self.rel_predictor(amateur_gated)
+            
+            # Contrastive loss: L_final = L_expert - alpha * L_amateur
+            pred_rel -= alpha * pred_rel_amateur
+
+        del hidden_states
 
         # from <Neural Motifs>
         if self.config.use_freq_bias:

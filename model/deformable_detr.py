@@ -213,6 +213,9 @@ class DeformableDetrConfig(PretrainedConfig):
         giou_loss_coefficient=2,
         eos_coefficient=0.1,
         focal_alpha=0.25,
+        use_contrastive_decoding=True,
+        contrastive_amateur_layers=3,
+        contrastive_alpha=0.1,
         **kwargs,
     ):
         self.num_queries = num_queries
@@ -256,6 +259,9 @@ class DeformableDetrConfig(PretrainedConfig):
         self.giou_loss_coefficient = giou_loss_coefficient
         self.eos_coefficient = eos_coefficient
         self.focal_alpha = focal_alpha
+        self.use_contrastive_decoding = use_contrastive_decoding
+        self.contrastive_amateur_layers = contrastive_amateur_layers
+        self.contrastive_alpha = contrastive_alpha
         super().__init__(is_encoder_decoder=is_encoder_decoder, **kwargs)
 
     @property
