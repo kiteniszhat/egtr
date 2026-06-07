@@ -137,3 +137,5 @@ dmypy.json
 
 ### visualization
 tmp.png
+
+*.ckpt

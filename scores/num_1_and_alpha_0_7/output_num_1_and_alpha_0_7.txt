@@ -1,0 +1,375 @@
+Accumulating evaluation results...
+DONE (t=36.81s).
+IoU metric: bbox
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.178
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.308
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.176
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.063
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.137
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.229
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.258
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.444
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.460
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.248
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.400
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.526
+======================sgdet  recall with constraint============================
+R@20: 0.233815
+R@50: 0.300083
+R@100: 0.343007
+
+
+relationship:  above
+======================sgdet  recall with constraint============================
+R@20: 0.038756
+R@50: 0.058328
+R@100: 0.071699
+
+
+relationship:  across
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.000000
+
+
+relationship:  against
+======================sgdet  recall with constraint============================
+R@20: 0.040323
+R@50: 0.072581
+R@100: 0.120968
+
+
+relationship:  along
+======================sgdet  recall with constraint============================
+R@20: 0.009174
+R@50: 0.018349
+R@100: 0.018349
+
+
+relationship:  and
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.001972
+R@100: 0.013807
+
+
+relationship:  at
+======================sgdet  recall with constraint============================
+R@20: 0.092973
+R@50: 0.144334
+R@100: 0.179249
+
+
+relationship:  attached to
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.002358
+
+
+relationship:  behind
+======================sgdet  recall with constraint============================
+R@20: 0.091740
+R@50: 0.173704
+R@100: 0.237607
+
+
+relationship:  belonging to
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.000000
+
+
+relationship:  between
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.000000
+
+
+relationship:  carrying
+======================sgdet  recall with constraint============================
+R@20: 0.082132
+R@50: 0.133295
+R@100: 0.158295
+
+
+relationship:  covered in
+======================sgdet  recall with constraint============================
+R@20: 0.014286
+R@50: 0.050595
+R@100: 0.107738
+
+
+relationship:  covering
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.009677
+R@100: 0.029032
+
+
+relationship:  eating
+======================sgdet  recall with constraint============================
+R@20: 0.060155
+R@50: 0.080574
+R@100: 0.105960
+
+
+relationship:  flying in
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.083333
+
+
+relationship:  for
+======================sgdet  recall with constraint============================
+R@20: 0.002049
+R@50: 0.002049
+R@100: 0.015710
+
+
+relationship:  from
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.014085
+R@100: 0.014085
+
+
+relationship:  growing on
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.000000
+
+
+relationship:  hanging from
+======================sgdet  recall with constraint============================
+R@20: 0.013745
+R@50: 0.035657
+R@100: 0.052092
+
+
+relationship:  has
+======================sgdet  recall with constraint============================
+R@20: 0.296794
+R@50: 0.384443
+R@100: 0.435955
+
+
+relationship:  holding
+======================sgdet  recall with constraint============================
+R@20: 0.242194
+R@50: 0.305961
+R@100: 0.342864
+
+
+relationship:  in
+======================sgdet  recall with constraint============================
+R@20: 0.090959
+R@50: 0.128192
+R@100: 0.153113
+
+
+relationship:  in front of
+======================sgdet  recall with constraint============================
+R@20: 0.013075
+R@50: 0.027869
+R@100: 0.038329
+
+
+relationship:  laying on
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.015015
+R@100: 0.046547
+
+
+relationship:  looking at
+======================sgdet  recall with constraint============================
+R@20: 0.028112
+R@50: 0.044177
+R@100: 0.059237
+
+
+relationship:  lying on
+======================sgdet  recall with constraint============================
+R@20: 0.020408
+R@50: 0.051020
+R@100: 0.066327
+
+
+relationship:  made of
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.000000
+
+
+relationship:  mounted on
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.000000
+
+
+relationship:  near
+======================sgdet  recall with constraint============================
+R@20: 0.097003
+R@50: 0.151497
+R@100: 0.196233
+
+
+relationship:  of
+======================sgdet  recall with constraint============================
+R@20: 0.206012
+R@50: 0.290993
+R@100: 0.337553
+
+
+relationship:  on
+======================sgdet  recall with constraint============================
+R@20: 0.265638
+R@50: 0.341322
+R@100: 0.395161
+
+
+relationship:  on back of
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.007092
+
+
+relationship:  over
+======================sgdet  recall with constraint============================
+R@20: 0.008685
+R@50: 0.021092
+R@100: 0.027295
+
+
+relationship:  painted on
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.000000
+
+
+relationship:  parked on
+======================sgdet  recall with constraint============================
+R@20: 0.032772
+R@50: 0.161798
+R@100: 0.234510
+
+
+relationship:  part of
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.000000
+
+
+relationship:  playing
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.045455
+
+
+relationship:  riding
+======================sgdet  recall with constraint============================
+R@20: 0.252531
+R@50: 0.318701
+R@100: 0.376243
+
+
+relationship:  says
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.083333
+
+
+relationship:  sitting on
+======================sgdet  recall with constraint============================
+R@20: 0.075086
+R@50: 0.110626
+R@100: 0.135678
+
+
+relationship:  standing on
+======================sgdet  recall with constraint============================
+R@20: 0.004844
+R@50: 0.014533
+R@100: 0.027092
+
+
+relationship:  to
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.008197
+R@100: 0.008197
+
+
+relationship:  under
+======================sgdet  recall with constraint============================
+R@20: 0.087362
+R@50: 0.133150
+R@100: 0.170554
+
+
+relationship:  using
+======================sgdet  recall with constraint============================
+R@20: 0.133542
+R@50: 0.168958
+R@100: 0.206458
+
+
+relationship:  walking in
+======================sgdet  recall with constraint============================
+R@20: 0.011737
+R@50: 0.011737
+R@100: 0.011737
+
+
+relationship:  walking on
+======================sgdet  recall with constraint============================
+R@20: 0.027122
+R@50: 0.069638
+R@100: 0.120777
+
+
+relationship:  watching
+======================sgdet  recall with constraint============================
+R@20: 0.040572
+R@50: 0.072298
+R@100: 0.109335
+
+
+relationship:  wearing
+======================sgdet  recall with constraint============================
+R@20: 0.435006
+R@50: 0.512565
+R@100: 0.561241
+
+
+relationship:  wears
+======================sgdet  recall with constraint============================
+R@20: 0.000000
+R@50: 0.000000
+R@100: 0.000000
+
+
+relationship:  with
+======================sgdet  recall with constraint============================
+R@20: 0.008221
+R@50: 0.019322
+R@100: 0.028581
+
+
+======================sgdet  mean recall with constraint============================
+mR@20:  0.056460216754222234
+mR@50:  0.0831660796934332
+mR@100:  0.10870359527536583

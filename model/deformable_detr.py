@@ -42,9 +42,9 @@ from PIL import Image
 from torch import Tensor, nn
 from torch.autograd import Function
 from torch.autograd.function import once_differentiable
-from transformers import DetrFeatureExtractor
+from transformers import DetrImageProcessor as DetrFeatureExtractor
 from transformers.activations import ACT2FN
-from transformers.file_utils import (
+from transformers.utils import (
     ModelOutput,
     add_start_docstrings,
     is_scipy_available,
@@ -54,7 +54,7 @@ from transformers.file_utils import (
     requires_backends,
 )
 from transformers.modeling_outputs import BaseModelOutput
-from transformers.modeling_utils import PretrainedConfig, PreTrainedModel
+from transformers.modeling_utils import PreTrainedConfig, PreTrainedModel
 from transformers.utils import logging
 
 import model.transform as T
@@ -69,7 +69,7 @@ def is_ninja_available():
     return importlib.util.find_spec("ninja") is not None
 
 
-class DeformableDetrConfig(PretrainedConfig):
+class DeformableDetrConfig(PreTrainedConfig):
     r"""
     This is the configuration class to store the configuration of a [`DeformableDetrModel`]. It is used to instantiate
     a Deformable DETR model according to the specified arguments, defining the model architecture. Instantiating a
@@ -213,9 +213,9 @@ class DeformableDetrConfig(PretrainedConfig):
         giou_loss_coefficient=2,
         eos_coefficient=0.1,
         focal_alpha=0.25,
-        use_contrastive_decoding=True,
-        contrastive_amateur_layers=3,
-        contrastive_alpha=0.1,
+        use_contrastive_decoding=False,
+        contrastive_amateur_layers=1,
+        contrastive_alpha=0.8,
         **kwargs,
     ):
         self.num_queries = num_queries
@@ -465,9 +465,7 @@ if is_scipy_available():
     from scipy.optimize import linear_sum_assignment
 
 if is_vision_available():
-    from transformers.models.detr.feature_extraction_detr import (
-        center_to_corners_format,
-    )
+    from util.box_ops import box_cxcywh_to_xyxy as center_to_corners_format
 
 if is_timm_available():
     from timm import create_model
