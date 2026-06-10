@@ -216,6 +216,7 @@ class DeformableDetrConfig(PreTrainedConfig):
         use_contrastive_decoding=False,
         contrastive_amateur_layers=1,
         contrastive_alpha=0.8,
+        rel_json_path="dataset/visual_genome/rel.json",
         **kwargs,
     ):
         self.num_queries = num_queries
@@ -262,6 +263,7 @@ class DeformableDetrConfig(PreTrainedConfig):
         self.use_contrastive_decoding = use_contrastive_decoding
         self.contrastive_amateur_layers = contrastive_amateur_layers
         self.contrastive_alpha = contrastive_alpha
+        self.rel_json_path = rel_json_path
         super().__init__(is_encoder_decoder=is_encoder_decoder, **kwargs)
 
     @property

@@ -115,9 +115,40 @@ class DetrSceneGraphGenerationOutput(ModelOutput):
     encoder_attentions: Optional[Tuple[torch.FloatTensor]] = None
 
 
+import json
+import os
+from collections import Counter
+
 def _get_clones(module, N):
     return nn.ModuleList([copy.deepcopy(module) for i in range(N)])
 
+def _get_frequencies_from_rel_json(json_path, num_classes):
+    print(f"Loading relation data from {json_path} for Adaptive Alpha...")
+    with open(json_path, 'r') as f:
+        data = json.load(f)
+    
+    predicate_counts = Counter()
+    for image_id, triplets in data.get('train', {}).items():
+        for triplet in triplets:
+            predicate_id = triplet[2]
+            predicate_counts[predicate_id] += 1
+            
+    frequencies = []
+    # Visual Genome relations are typically 1-indexed in the JSON (1 to 50)
+    # Output dim is 50, mapping index 0 in tensor -> relation ID 1 in JSON
+    for i in range(1, num_classes + 1):
+        frequencies.append(predicate_counts.get(i, 0))
+    return frequencies
+
+def _compute_adaptive_alpha(class_frequencies):
+    freqs = torch.tensor(class_frequencies, dtype=torch.float32)
+    freqs = torch.clamp(freqs, min=1.0)
+    n_max = torch.max(freqs)
+    log_freqs = torch.log(freqs)
+    log_n_max = torch.log(n_max)
+    alpha = 1.0 - (log_freqs / (log_n_max + 1e-8))
+    alpha = torch.clamp(alpha, min=0.0, max=1.0)
+    return alpha
 
 class DetrForSceneGraphGeneration(DeformableDetrPreTrainedModel):
     def __init__(self, config, **kwargs):
@@ -221,6 +252,20 @@ class DetrForSceneGraphGeneration(DeformableDetrPreTrainedModel):
             output_dim=1,
             num_layers=3,
         )
+
+        # --- Adaptive Alpha for Contrastive Decoding ---
+        json_path = getattr(config, "rel_json_path", "dataset/visual_genome/rel.json")
+        if os.path.exists(json_path):
+            freqs = _get_frequencies_from_rel_json(json_path, config.num_rel_labels)
+            alpha_vec = _compute_adaptive_alpha(freqs)
+        else:
+            print(f"Warning: {json_path} not found. Using default scalar alpha.")
+            scalar_alpha = getattr(config, "contrastive_alpha", 0.1)
+            alpha_vec = torch.ones(config.num_rel_labels) * scalar_alpha
+        
+        # Register as a buffer so it's automatically moved to the correct device
+        # We set persistent=False so that PyTorch doesn't expect it in the loaded state_dict
+        self.register_buffer("contrastive_alpha_vector", alpha_vec, persistent=False)
 
         # Initialize weights and apply final processing
         self.post_init()
@@ -404,7 +449,6 @@ class DetrForSceneGraphGeneration(DeformableDetrPreTrainedModel):
         # --- CONTRASTIVE DECODING ---
         if not self.training and getattr(self.config, "use_contrastive_decoding", False):
             amateur_layers = getattr(self.config, "contrastive_amateur_layers", 3)
-            alpha = getattr(self.config, "contrastive_alpha", 0.1)
             
             # Extract attention queries/keys from early decoder layers
             # relation_source has shape [bsz, nq, nq, num_layers + 1, 2*d_model]
@@ -433,8 +477,8 @@ class DetrForSceneGraphGeneration(DeformableDetrPreTrainedModel):
             amateur_gated = torch.mul(amateur_gate, amateur_relation_source).sum(dim=-2)
             pred_rel_amateur = self.rel_predictor(amateur_gated)
             
-            # Contrastive loss: L_final = L_expert - alpha * L_amateur
-            pred_rel -= alpha * pred_rel_amateur
+            # Contrastive loss: L_final = L_expert - alpha_vector * L_amateur
+            pred_rel -= self.contrastive_alpha_vector * pred_rel_amateur
 
         del hidden_states
 
