@@ -140,13 +140,16 @@ def _get_frequencies_from_rel_json(json_path, num_classes):
         frequencies.append(predicate_counts.get(i, 0))
     return frequencies
 
-def _compute_adaptive_alpha(class_frequencies):
+def _compute_adaptive_alpha(class_frequencies, tau=0.5):
     freqs = torch.tensor(class_frequencies, dtype=torch.float32)
     freqs = torch.clamp(freqs, min=1.0)
     n_max = torch.max(freqs)
+
     log_freqs = torch.log(freqs)
     log_n_max = torch.log(n_max)
-    alpha = 1.0 - (log_freqs / (log_n_max + 1e-8))
+
+    base_alpha = 1.0 - (log_freqs / (log_n_max + 1e-8))
+    alpha = tau * base_alpha    
     alpha = torch.clamp(alpha, min=0.0, max=1.0)
     return alpha
 
