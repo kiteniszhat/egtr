@@ -451,6 +451,7 @@ class DetrForSceneGraphGeneration(DeformableDetrPreTrainedModel):
 
         # --- CONTRASTIVE DECODING ---
         if not self.training and getattr(self.config, "use_contrastive_decoding", False):
+            print("UWAGA! DEKODOWANIE KONTRASTYWNE DZIAŁA!")
             amateur_layers = getattr(self.config, "contrastive_amateur_layers", 3)
             
             # Extract attention queries/keys from early decoder layers
