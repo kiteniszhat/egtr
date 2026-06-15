@@ -480,8 +480,13 @@ class DetrForSceneGraphGeneration(DeformableDetrPreTrainedModel):
             amateur_gated = torch.mul(amateur_gate, amateur_relation_source).sum(dim=-2)
             pred_rel_amateur = self.rel_predictor(amateur_gated)
             
-            # Contrastive loss: L_final = L_expert - alpha_vector * L_amateur
-            pred_rel -= self.contrastive_alpha_vector * pred_rel_amateur
+            # Credibility Mask: M_i = 1 if sigma(L_expert) >= gamma else 0
+            gamma = getattr(self.config, "contrastive_gamma", 0.05)
+            expert_probs = torch.sigmoid(pred_rel)
+            credibility_mask = (expert_probs >= gamma).float()
+
+            # Contrastive loss: L_final = L_expert - M_i * alpha_vector * L_amateur
+            pred_rel -= credibility_mask * self.contrastive_alpha_vector * pred_rel_amateur
 
         del hidden_states
 

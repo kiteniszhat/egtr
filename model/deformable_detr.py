@@ -213,9 +213,10 @@ class DeformableDetrConfig(PretrainedConfig):
         giou_loss_coefficient=2,
         eos_coefficient=0.1,
         focal_alpha=0.25,
-        use_contrastive_decoding=False,
+        use_contrastive_decoding=True,
         contrastive_amateur_layers=1,
         contrastive_alpha=0.8,
+        contrastive_gamma=0.05,
         rel_json_path="dataset/visual_genome/rel.json",
         **kwargs,
     ):
@@ -263,6 +264,7 @@ class DeformableDetrConfig(PretrainedConfig):
         self.use_contrastive_decoding = use_contrastive_decoding
         self.contrastive_amateur_layers = contrastive_amateur_layers
         self.contrastive_alpha = contrastive_alpha
+        self.contrastive_gamma = contrastive_gamma
         self.rel_json_path = rel_json_path
         super().__init__(is_encoder_decoder=is_encoder_decoder, **kwargs)
 
