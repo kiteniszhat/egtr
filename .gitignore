@@ -139,3 +139,5 @@ dmypy.json
 tmp.png
 
 *.ckpt
+dataset/
+egtr__pretrained_detr__SenseTime__deformable-detr__batch__32__epochs__150_50__lr__1e-05_0.0001__visual_genome__finetune__version_0/
